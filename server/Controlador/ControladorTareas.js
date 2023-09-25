@@ -2,14 +2,13 @@ import {pool} from '../db.js'
 
 
 export const getTareas= async (req,res)=>{
-   /*try{
-    const [result] = await pool.query('select * from registro')
+   try{
+    const [result] = await pool.query('SELECT * FROM registros')
     res.json(result)
    }
    catch(error){
-    return res.status(300).json({mensaje:error.mensaje})
-   }*/
-   res.send("Obteniendo una")
+    return res.status(500).json({mensaje:error.mensaje})
+   }
 }
 export const getTarea= async (req,res)=>{
 try{
@@ -25,6 +24,7 @@ export const createTareas= async (req,res)=>{
         const {Nombre,Identificacion,Rol}= req.body
     const [result]=await pool.query('INSERT INTO registros(Nombre,Identificacion,Rol) VALUES (?,?,?)',[Nombre,Identificacion,Rol])
     res.json({
+        id:result.insertId,
         Nombre,Identificacion,Rol
     })
     }
@@ -35,7 +35,7 @@ export const createTareas= async (req,res)=>{
 }
 export const updateTareas=async (req,res)=>{
   try{
-    const [result]=await pool.query('update  registro set ? where id=?',[req.body,req.params.Id])
+    const [result]=await pool.query('UPDATE  registros SET ? where id=?',[req.body,req.params.Id])
     res.json(result)
   }
   catch(error){
@@ -44,7 +44,7 @@ export const updateTareas=async (req,res)=>{
 }
 export const deleteTareas=async (req,res)=>{
     try{
-        const [result]=await pool.query('delete  from registro where id=?',[req.params.Id])
+        const [result]=await pool.query('DELETE  FROM registros where Id=?',[req.params.Id])
     res.json(result)
     }
     catch(error){
